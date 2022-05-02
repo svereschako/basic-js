@@ -17,9 +17,23 @@ const HALF_LIFE_PERIOD = 5730;
  * dateSample('WOOT!') => false
  *
  */
-function dateSample(/* sampleActivity */) {
-  throw new NotImplementedError('Not implemented');
+ Number.prototype.toFixedNumber = function(digits, base){
+  var pow = Math.pow(base||10, digits);
+  return Math.round(this*pow) / pow;
+}
+
+function dateSample(sampleActivity) {
+  //throw new NotImplementedError('Not implemented');
   // remove line with error and write your code here
+  if(Number.isNaN(parseFloat(sampleActivity)))
+  	return false;
+  if(typeof sampleActivity !== "string")
+    return false;
+  var sampAct = parseFloat(sampleActivity).toPrecision(12);
+  if(sampAct < 1 || sampAct > 15)
+  	return false;
+  
+  return Math.abs(Math.floor(Math.log(sampAct/MODERN_ACTIVITY)/(0.693/HALF_LIFE_PERIOD)));
 }
 
 module.exports = {
