@@ -16,7 +16,7 @@ const chainMaker = {
     //throw new NotImplementedError('Not implemented');
     // remove line with error and write your code here
     if(value=="underfined")
-      value = "";
+      value = " ";
 
     this.nodes.push(value);
     this.chain = this.chain + "( " + value + " )~~";
@@ -52,7 +52,7 @@ const chainMaker = {
   finishChain() {
     //throw new NotImplementedError('Not implemented');
     // remove line with error and write your code here
-    return this.chain.slice(0, this.chain.length-2);
+    return this.chain.slice(0, this.chain.length-2);    
   }
 };
 

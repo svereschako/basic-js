@@ -14,20 +14,25 @@ const { NotImplementedError } = require('../extensions/index.js');
 function getSeason( date ) {
   //throw new NotImplementedError('Not implemented');
   // remove line with error and write your code here
+
   if(!date)
     return "Unable to determine the time of year!";
+  if(date.hasOwnProperty('toString'))
+    throw new Error("Invalid date!");
   if(date instanceof Date){
     if(isNaN(date))
       throw new Error("Invalid date!");
   }else
     throw new Error("Invalid date!");
     
-  if (!typeof date === 'object' &&
+  /*if (!typeof date === 'object' &&
     date === null &&
     typeof date.getTime !== 'function' &&
     isNaN(date)) {
     throw new Error ("Invalid date!");
-  }
+  }*/
+
+  
   
   
   var winter = [0, 1, 11];

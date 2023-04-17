@@ -19,14 +19,66 @@ const { NotImplementedError } = require('../extensions/index.js');
  * reverseMachine.decrypt('AEIHQX SX DLLU!', 'alphonse') => '!NWAD TA KCATTA'
  * 
  */
-class VigenereCipheringMachine {
-  encrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+ function isLowerCase(letter){
+  var l = letter.charCodeAt();
+  if(l >= 97 && l <= 122){
+    return true;
+  }else{
+    return false;
   }
-  decrypt() {
-    throw new NotImplementedError('Not implemented');
+};
+function isUpperCase (character) {
+  if (character === character.toUpperCase()) {
+    return true
+  }
+  if (character === character.toLowerCase()) {
+    return false
+  }
+}
+class VigenereCipheringMachine {
+  consctuctor(type) {
+  	this.type = type;
+  }
+
+  encrypt(message, key) {
+    //throw new NotImplementedError('Not implemented');
     // remove line with error and write your code here
+    let text = "";   
+
+    for(let i=0, j=0;i<message.length;i++) {
+      var current = message[i];
+      if(isLowerCase(current)){
+    	let x = ((current.charCodeAt()-97) + (key[j%key.length].charCodeAt() -97)) %26 ;
+    	//x += 'A'.charCodeAt(0);
+    	text+=String.fromCharCode(x+97);
+      j++;
+      }
+      else
+        text += current;  	    	
+    }
+    if(this.type === false)
+    	text = text.split("").reverse().join("");
+    return text.toUpperCase();
+  }
+  decrypt(encryptedMessage, key) {
+    //throw new NotImplementedError('Not implemented');
+    // remove line with error and write your code here
+    let text = "";
+
+    for(let i=0, j=0;i<encryptedMessage.length;i++) {
+      var current = encryptedMessage[i];
+      //if(!isLowerCase(current)){
+    	let x = (current.charCodeAt(0) - key[j%key.length].charCodeAt(0)) %26;
+    	//x += 'A'.charCodeAt(0);
+    	text+=String.fromCharCode(x);
+      //}
+      //else
+        //text += current;
+      j++;
+    }
+    if(this.type === false) 
+    	text = text.split("").reverse().join(""); 
+    return text.toUpperCase();
   }
 }
 
