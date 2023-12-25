@@ -22,7 +22,7 @@ function isMAC48Address( n ) {
   var arr= n.split("-");
   for(var i=0;i<arr.length;i++) {
   	if(!/[0-9A-F]{2}/.test(arr[i]))
-  		return;
+  		return false;
   	return true;
   }
 }

@@ -31,9 +31,10 @@ function isUpperCase (character) {
   if (character === character.toUpperCase()) {
     return true
   }
-  if (character === character.toLowerCase()) {
+  /*if (character === character.toLowerCase()) {
     return false
-  }
+  }*/
+  return false;
 }
 class VigenereCipheringMachine {
   consctuctor(type) {
@@ -43,6 +44,8 @@ class VigenereCipheringMachine {
   encrypt(message, key) {
     //throw new NotImplementedError('Not implemented');
     // remove line with error and write your code here
+    if(!message || !key)
+      throw new Error("Incorrect arguments!");
     let text = "";   
 
     for(let i=0, j=0;i<message.length;i++) {
@@ -63,6 +66,8 @@ class VigenereCipheringMachine {
   decrypt(encryptedMessage, key) {
     //throw new NotImplementedError('Not implemented');
     // remove line with error and write your code here
+    if(!encryptedMessage || !key)
+      throw new Error("Incorrect arguments");
     let text = "";
 
     for(let i=0, j=0;i<encryptedMessage.length;i++) {

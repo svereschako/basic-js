@@ -15,25 +15,28 @@ const chainMaker = {
   addLink( value ) {
     //throw new NotImplementedError('Not implemented');
     // remove line with error and write your code here
-    if(value=="underfined")
+    if(value==="")
       value = " ";
-
-    this.nodes.push(value);
-    this.chain = this.chain + "( " + value + " )~~";
+    let val = String(value);
+    this.nodes.push(val);
+    this.chain += this.chain=="" ?  "( " + val + " )" : "~~( " + val + " )";
     return this;
   },
   removeLink( position ) {
     //throw new NotImplementedError('Not implemented');
     // remove line with error and write your code here
-    if(typeof position !== "number" || !this.nodes[position] || !(!isNaN(position) && parseInt(Number(position)) == position &&  !isNaN(parseInt(position, 10))))
+    if(this.nodes[position-1] === undefined || typeof position !== "number" || position === null){
+      this.nodes.splice(0);
+      this.chain = "";
       throw new Error("You can't remove incorrect link!");
-    this.nodes.splice(position, 1);
+    }
+    this.nodes.splice(position-1, 1);
     this.chain = "";
     var th = this;
     //var nds = this.nodes;
     for(var i=0;i<this.nodes.length;i++){
       //this.addLink(th.nodes[i]);
-      this.chain = this.chain + "( " + this.nodes[i] + " )~~";
+      this.chain += this.chain=="" ? "( " + this.nodes[i] + " )" : "~~( " + this.nodes[i] + " )";
     }    
     return this;
   },
@@ -45,14 +48,18 @@ const chainMaker = {
     var th = this;    
     for(var i=0;i<this.nodes.length;i++){
       //this.addLink(th.nodes[i]);
-      this.chain = this.chain + "( " + this.nodes[i] + " )~~";
+      this.chain += this.chain=="" ? "( " + this.nodes[i] + " )" : "~~( " + this.nodes[i] + " )";
     }  
     return this;
   },
   finishChain() {
     //throw new NotImplementedError('Not implemented');
     // remove line with error and write your code here
-    return this.chain.slice(0, this.chain.length-2);    
+    //return this.chain.slice(0, this.chain.length-2);
+    let res = this.chain;
+    this.nodes.splice(0);
+    this.chain = "";
+    return res;    
   }
 };
 
