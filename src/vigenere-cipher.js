@@ -19,6 +19,10 @@ const { NotImplementedError } = require('../extensions/index.js');
  * reverseMachine.decrypt('AEIHQX SX DLLU!', 'alphonse') => '!NWAD TA KCATTA'
  * 
  */
+function isLetter (str) {
+  return str.length === 1 && str.match(/[a-zA-Z]/i)
+}
+
  function isLowerCase(letter){
   var l = letter.charCodeAt();
   if(l >= 97 && l <= 122){
@@ -38,6 +42,8 @@ function isUpperCase (character) {
 }
 class VigenereCipheringMachine {
   consctuctor(type) {
+    if(!type)
+      throw new Error("Incorrect arguments!");
   	this.type = type;
   }
 
@@ -46,44 +52,50 @@ class VigenereCipheringMachine {
     // remove line with error and write your code here
     if(!message || !key)
       throw new Error("Incorrect arguments!");
-    let text = "";   
-
-    for(let i=0, j=0;i<message.length;i++) {
-      var current = message[i];
-      if(isLowerCase(current)){
-    	let x = ((current.charCodeAt()-97) + (key[j%key.length].charCodeAt() -97)) %26 ;
-    	//x += 'A'.charCodeAt(0);
-    	text+=String.fromCharCode(x+97);
-      j++;
+    let result = ''
+     
+      for (let i = 0, j = 0; i < message.length; i++) {
+        const c = message.charAt(i)
+        if (isLetter(c)) {
+          if (isUpperCase(c)) {
+            result += String.fromCharCode((c.charCodeAt(0) + key.toUpperCase().charCodeAt(j) - 2 * 65) % 26 + 65) // A: 65
+          } else {
+            result += String.fromCharCode((c.charCodeAt(0) + key.toLowerCase().charCodeAt(j) - 2 * 97) % 26 + 97) // a: 97
+          }
+        } else {
+          result += c
+        }
+        j = ++j % key.length
       }
-      else
-        text += current;  	    	
-    }
+      //return result
     if(this.type === false)
-    	text = text.split("").reverse().join("");
-    return text.toUpperCase();
+    	result = result.split("").reverse().join("");
+    return result.toUpperCase();
   }
-  decrypt(encryptedMessage, key) {
+  decrypt(message, key) {
     //throw new NotImplementedError('Not implemented');
     // remove line with error and write your code here
-    if(!encryptedMessage || !key)
+    if(!message || !key)
       throw new Error("Incorrect arguments");
-    let text = "";
-
-    for(let i=0, j=0;i<encryptedMessage.length;i++) {
-      var current = encryptedMessage[i];
-      //if(!isLowerCase(current)){
-    	let x = (current.charCodeAt(0) - key[j%key.length].charCodeAt(0)) %26;
-    	//x += 'A'.charCodeAt(0);
-    	text+=String.fromCharCode(x);
-      //}
-      //else
-        //text += current;
-      j++;
-    }
+    let result = ''
+     
+      for (let i = 0, j = 0; i < message.length; i++) {
+        const c = message.charAt(i)
+        if (isLetter(c)) {
+          if (isUpperCase(c)) {
+            result += String.fromCharCode(90 - (25 - (c.charCodeAt(0) - key.toUpperCase().charCodeAt(j))) % 26)
+          } else {
+            result += String.fromCharCode(122 - (25 - (c.charCodeAt(0) - key.toLowerCase().charCodeAt(j))) % 26)
+          }
+        } else {
+          result += c
+        }
+        j = ++j % key.length
+      }
+      //return result
     if(this.type === false) 
-    	text = text.split("").reverse().join(""); 
-    return text.toUpperCase();
+    	result = result.split("").reverse().join(""); 
+    return result.toUpperCase();
   }
 }
 
